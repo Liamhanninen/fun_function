@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load verbose_names %}
+{% block content %}
+
+{% block dynamic_header %}            
+    {% include "dynamic_header.html" with model=model %}            
+{% endblock dynamic_header %}  
+<br>
+<form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Save">
+</form>
+<br>
+
+<h3>Results</h3>
+<table>
+    <tr>
+    {% for field in field_names %}
+        <th>{% get_verbose_field_name field %}</th>
+    {% endfor %}  
+    </tr>
+    {% for instance in list %}
+    <tr>
+        {% for field, value in instance.fields.items %}
+            <td>{{ value }}</td>
+        {% endfor %}        
+      </tr>
+    {% endfor %}  
+</table>
+
+{% endblock %}
